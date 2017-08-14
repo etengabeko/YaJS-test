@@ -1,0 +1,37 @@
+.container {
+    margin-top: 5%;
+    width: 20%;
+    float: left;
+}
+
+.container:first-child {
+    width: 50%
+}
+
+.container:last-child {
+    width: 25%
+}
+
+input {
+    width: 50%;
+    margin-left: 10%;
+    margin-bottom: 2%;
+}
+
+input:last-child {
+    width: auto;
+    margin-top: 3%;
+    margin-bottom: auto;
+}
+
+.error {
+    border: 1px solid red;
+}
+
+img {
+    display: none;
+}
+
+.progress>img {
+    display: block;
+}

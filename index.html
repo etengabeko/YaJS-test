@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Simple Test</title>
+        <link rel="stylesheet" type="text/css" href="styles.css"/>
+    </head>
+    <body>
+        <div id="inputContainer" class="container">
+            <form id="myForm" action="result.json" onsubmit="on_submit(this); return false;">
+                <input type="text"   name="fio"   required placeholder="one two three"    onchange="on_change(this);"/>
+                <br/>
+                <input type="email"  name="email" required placeholder="name@yandex.ru"   onchange="on_change(this);"/>
+                <br/>
+                <input type="tel"    name="phone" required placeholder="+7(111)222-33-11" onchange="on_change(this);"/>
+                <br/>
+                <input type="submit" id="submitButton"/>
+            </form>
+        </div>
+        <div id="progressContainer" class="container">
+            <img src="preload.gif"/>
+        </div>
+        <div id="resultContainer" class="container">
+        </div>
+        <script type="text/javascript" src="index.js"></script>
+    </body>
+</html>
