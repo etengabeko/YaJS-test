@@ -8,11 +8,14 @@
     <body>
         <div id="inputContainer" class="container">
             <form id="myForm" action="result.json" onsubmit="on_submit(this); return false;">
+                <label for="fio"  >Name: </label>
                 <input type="text"   name="fio"   required placeholder="one two three"    onchange="on_change(this);"/>
                 <br/>
+                <label for="email">Email:</label>
                 <input type="email"  name="email" required placeholder="name@yandex.ru"   onchange="on_change(this);"/>
                 <br/>
-                <input type="tel"    name="phone" required placeholder="+7(111)222-33-11" onchange="on_change(this);"/>
+                <label for="phone">Phone:</label>
+                <input type="tel"    name="phone" required placeholder="+7(111)222-33-11" onchange="on_change(this);" pattern="^\+7\(\d{3}\)\d{3}-\d{2}-\d{2}$"/>
                 <br/>
                 <input type="submit" id="submitButton"/>
             </form>
