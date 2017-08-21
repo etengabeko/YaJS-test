@@ -50,15 +50,80 @@ var MyForm = {
     
     validate: function()
     {
-        console.log("validate");
-        // TODO
-        // var result = this.getData();
-       
         var result = { isValid: true, errorFields: [] };
+        
+        var data = this.getData();
+        for (var key in data)
+        {
+            if (data.hasOwnProperty(key))
+            {
+                var errorField = null;
+                switch (key)
+                {
+                case "fio":
+                    if (!this.validateName(data[key]))
+                    {
+                        errorField = key;
+                    }
+                    break;
+                case "email":
+                    if (!this.validateEmail(data[key]))
+                    {
+                        errorField = key;
+                    }
+                    break;
+                case "phone":
+                    if (!this.validatePhone(data[key]))
+                    {
+                        errorField = key;
+                    }
+                    break;
+                }
+                if (errorField != null)
+                {
+                    result["isValid"] = false;
+                    result["errorFields"].push(errorField);
+                }
+            }
+        }
         
         return result;
     },
+
+    validateName: function(value)
+    {
+        var wordsCount = 3;
+        return (value.match(/\w+/g).length == wordsCount);
+    },
     
+    validateEmail: function(value)
+    {
+        var validedDomains = ["ya.ru",
+                              "yandex.ru",
+                              "yandex.by",
+                              "yandex.kz",
+                              "yandex.com"];
+        var domain = value.split("@")[1];
+        return (validedDomains.indexOf(domain) >= 0);
+    },
+
+    validatePhone: function(value)
+    {
+        var sum = 0;
+        var limit = 30;
+
+        for (var i of value.match(/\d/g))
+        {
+            var digit = parseInt(i);
+            if (digit != NaN)
+            {
+                sum += digit;
+            }
+        }
+
+        return (sum <= limit);
+    },
+
     sendRequest: function(data)
     {
         if (data == null)
@@ -76,6 +141,15 @@ var MyForm = {
             }
         }
 
+        this.setSubmitButtonEnabled(false);
+
+        var output = document.getElementById("resultContainer");
+        this.setElementClass(output, "success",  false);
+        this.setElementClass(output, "error",    false);
+        this.setElementClass(output, "progress", false);
+
+        this.setElementClass(document.getElementById("progressContainer"), "progress", true);
+        
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open("POST", path, true);
         xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -93,15 +167,6 @@ var MyForm = {
                 xmlhttp = null;
             };
         xmlhttp.send(params.join("&"));
-
-        this.setSubmitButtonEnabled(false);
-
-        var output = document.getElementById("resultContainer");
-        this.setElementClass(output, "success",  false);
-        this.setElementClass(output, "error",    false);
-        this.setElementClass(output, "progress", false);
-
-        this.setElementClass(document.getElementById("progressContainer"), "progress", true);
     },
 
     highlightErrorFields: function(fieldsNames)
@@ -113,11 +178,11 @@ var MyForm = {
             {
                 if (~fieldsNames.indexOf(inputs[i].name))
                 {
-                    setErrorClass(inputs[i]);
+                    this.setErrorClass(inputs[i]);
                 }
                 else
                 {
-                    resetErrorClass(inputs[i]);
+                    this.resetErrorClass(inputs[i]);
                 }
             }
         }
